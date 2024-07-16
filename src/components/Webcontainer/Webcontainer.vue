@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import type { FileSystemTree } from '@webcontainer/api'
 import Terminal from '@/components/Webcontainer/children/Terminal.vue'
 import useWebContainer from '@/composables/webcontainer.ts'
-import type { FileSystemTree } from '@webcontainer/api';
 
 const props = defineProps<{ directory: FileSystemTree }>()
 
@@ -34,6 +34,6 @@ onMounted(startDevServer)
 <template>
   <div>
     <iframe ref="iframe" />
-    <Terminal :stream />
+    <Terminal v-if="stream" :stream />
   </div>
 </template>
