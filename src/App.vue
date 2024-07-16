@@ -21,3 +21,10 @@ onBeforeMount(async () => directory.value = await getDirectoryStructure())
     <Playground :directory />
   </main>
 </template>
+
+<style scoped>
+main {
+  height: 100%;
+  width: 100%;
+}
+</style>
