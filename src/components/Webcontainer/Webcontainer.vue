@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import type { FileSystemTree } from '@webcontainer/api'
 import Terminal from '@/components/Webcontainer/children/Terminal.vue'
+import SplitPane from '@/components/Webcontainer/children/SplitPane.vue'
 import useWebContainer from '@/composables/webcontainer.ts'
 
 const props = defineProps<{ directory: FileSystemTree }>()
@@ -32,8 +33,26 @@ onMounted(startDevServer)
 </script>
 
 <template>
-  <div>
-    <iframe ref="iframe" />
-    <Terminal v-if="stream" :stream />
+  <div class="vue-webcontainer">
+    <SplitPane>
+      <template #up>
+        <iframe ref="iframe" />
+      </template>
+      <template #down>
+        <Terminal v-if="stream" :stream />
+      </template>
+    </SplitPane>
   </div>
 </template>
+
+<style scoped>
+.vue-webcontainer {
+    height: 100%;
+    width: 100%;
+}
+
+iframe {
+    height: 100%;
+    width: 100%;
+}
+</style>
