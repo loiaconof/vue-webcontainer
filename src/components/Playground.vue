@@ -2,7 +2,8 @@
 import { onMounted, ref } from 'vue'
 import Terminal from '@/components/Terminal.vue'
 import useWebContainer from '@/composables/webcontainer.ts'
-import pjs from '@/../package.json?raw'
+
+const props = defineProps<{ directory: FileSystemTree }>()
 
 const stream = ref<ReadableStream>()
 const iframe = ref<HTMLIFrameElement>()
@@ -12,13 +13,7 @@ async function startDevServer() {
 
   wc.on('server-ready', (port, url) => (iframe.value!.src = url))
 
-  await wc.mount({
-    'package.json': {
-      file: {
-        contents: pjs,
-      },
-    },
-  })
+  await wc.mount(props.directory)
 
   const installProcess = await wc.spawn('pnpm', ['install'])
   stream.value = installProcess.output
