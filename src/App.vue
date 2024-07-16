@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FileSystemTree } from '@webcontainer/api'
 import { onBeforeMount, ref } from 'vue'
-import Playground from '@/components/Webcontainer/Playground.vue'
+import Playground from '@/components/Webcontainer/Webcontainer.vue'
 
 const directory = ref()
 
