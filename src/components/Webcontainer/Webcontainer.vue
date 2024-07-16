@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import Terminal from '@/components/Webcontainer/children/Terminal.vue'
 import useWebContainer from '@/composables/webcontainer.ts'
+import type { FileSystemTree } from '@webcontainer/api';
 
 const props = defineProps<{ directory: FileSystemTree }>()
 
