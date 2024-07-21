@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue'
 import type { FileSystemTree } from '@webcontainer/api'
 import { Pane, Splitpanes } from 'splitpanes'
 import Terminal from '@/components/Webcontainer/children/Terminal.vue'
+import PanelEditor from '@/components/Webcontainer/children/PanelEditor.vue'
 import useWebContainer from '@/composables/webcontainer.ts'
 import 'splitpanes/dist/splitpanes.css'
 
@@ -40,17 +41,14 @@ onMounted(startDevServer)
         files
       </Pane>
       <Pane size="45">
-        editor
+        <PanelEditor>
+          <template #terminal>
+            <Terminal v-if="stream" :stream />
+          </template>
+        </PanelEditor>
       </Pane>
       <Pane size="45">
-        <Splitpanes class="default-theme" horizontal>
-          <Pane size="70">
-            <iframe ref="iframe" />
-          </Pane>
-          <Pane size="30">
-            <Terminal v-if="stream" :stream />
-          </Pane>
-        </Splitpanes>
+        <iframe ref="iframe" />
       </Pane>
     </Splitpanes>
   </div>
