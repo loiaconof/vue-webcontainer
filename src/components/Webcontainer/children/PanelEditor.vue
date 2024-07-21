@@ -22,7 +22,7 @@ const showTerminal = ref(true)
   </div>
 </template>
 
-<style>
+<style scoped>
 .panel-editor{
     position:relative;
     height: 100%;
