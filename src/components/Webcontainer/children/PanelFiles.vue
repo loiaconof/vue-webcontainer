@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { FileSystemTree } from '@webcontainer/api'
 import { ref, watchEffect } from 'vue'
+import FileSystemTreeComponent from './FileSystemTree.vue'
 
 const props = defineProps<{
   directory: FileSystemTree
@@ -13,9 +14,6 @@ watchEffect(() => { directory.value = props.directory })
 
 <template>
   <div class="panel-files">
-    <div v-for="(data, name) in directory" :key="name">
-      <div v-if="data.directory" />
-      <span v-else @click="console.log('')">{{ name }}</span>
-    </div>
+    <FileSystemTreeComponent :directory path="" />
   </div>
 </template>
