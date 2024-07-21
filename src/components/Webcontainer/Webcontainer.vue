@@ -47,12 +47,12 @@ onMounted(startDevServer)
 
 <style scoped>
 .vue-webcontainer {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 iframe {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 </style>
