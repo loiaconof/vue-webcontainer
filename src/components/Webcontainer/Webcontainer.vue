@@ -6,6 +6,7 @@ import Terminal from '@/components/Webcontainer/children/Terminal.vue'
 import PanelEditor from '@/components/Webcontainer/children/PanelEditor.vue'
 import useWebContainer from '@/composables/webcontainer.ts'
 import 'splitpanes/dist/splitpanes.css'
+import PanelFiles from './children/PanelFiles.vue'
 
 const props = defineProps<{ directory: FileSystemTree }>()
 
@@ -38,7 +39,7 @@ onMounted(startDevServer)
   <div class="vue-webcontainer">
     <Splitpanes class="default-theme">
       <Pane size="10">
-        files
+        <PanelFiles :directory />
       </Pane>
       <Pane size="45">
         <PanelEditor>
