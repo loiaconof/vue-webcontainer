@@ -32,5 +32,7 @@ watch(
 </script>
 
 <template>
-  <div ref="output" />
+  <div>
+    <div ref="output" />
+  </div>
 </template>
