@@ -12,6 +12,7 @@ const props = defineProps<{ directory: FileSystemTree }>()
 
 const stream = ref<ReadableStream>()
 const iframe = ref<HTMLIFrameElement>()
+const editorCode = ref('')
 
 async function startDevServer() {
   const wc = await useWebContainer()
@@ -39,10 +40,10 @@ onMounted(startDevServer)
   <div class="vue-webcontainer">
     <Splitpanes class="default-theme">
       <Pane size="10">
-        <PanelFiles :directory />
+        <PanelFiles :directory @active-file="(code: string) => editorCode = code" />
       </Pane>
       <Pane size="45">
-        <PanelEditor>
+        <PanelEditor :code="editorCode">
           <template #terminal>
             <Terminal v-if="stream" :stream />
           </template>

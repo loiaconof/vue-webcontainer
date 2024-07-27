@@ -7,6 +7,8 @@ const props = defineProps<{
   directory: FileSystemTree
 }>()
 
+const emit = defineEmits<{ (e: 'activeFile', code: string): void }>()
+
 const directory = ref<FileSystemTree>({})
 
 watchEffect(() => { directory.value = props.directory })
@@ -14,6 +16,6 @@ watchEffect(() => { directory.value = props.directory })
 
 <template>
   <div class="panel-files">
-    <FileSystemTreeComponent :directory path="" />
+    <FileSystemTreeComponent :directory path="" @active-file="(content: string) => emit('activeFile', content)" />
   </div>
 </template>

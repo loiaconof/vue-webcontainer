@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+defineProps<{ code: string }>()
+
 const showTerminal = ref(true)
 </script>
 
 <template>
   <div class="panel-editor">
     <div class="editor">
-      editor here {{ showTerminal }}
+      {{ code }}
     </div>
     <div class="terminal-wrapper">
       <div class="terminal-header" @click="showTerminal = !showTerminal">
