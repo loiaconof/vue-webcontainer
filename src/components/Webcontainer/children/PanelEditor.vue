@@ -1,15 +1,29 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { VueMonacoEditor } from '@guolao/vue-monaco-editor'
 
-defineProps<{ code: string }>()
+const props = defineProps<{ code: string }>()
 
+const activeCode = ref(props.code)
 const showTerminal = ref(true)
+const editorOptions = {
+  automaticLayout: true,
+  formatOnType: true,
+  formatOnPaste: true,
+}
+
+watch(() => props.code, (code: string) => activeCode.value = code)
 </script>
 
 <template>
   <div class="panel-editor">
     <div class="editor">
-      {{ code }}
+      <VueMonacoEditor
+        v-model:value="activeCode"
+        theme="vs-dark"
+        :options="editorOptions"
+        class="monaco-editor"
+      />
     </div>
     <div class="terminal-wrapper">
       <div class="terminal-header" @click="showTerminal = !showTerminal">
@@ -29,6 +43,15 @@ const showTerminal = ref(true)
     position:relative;
     height: 100%;
     width: 100%;
+}
+
+.editor {
+  height: 100%;
+  width: 100%;
+}
+.monaco-editor {
+  height: 100%;
+  width: 100%;
 }
 
 .terminal-header {
