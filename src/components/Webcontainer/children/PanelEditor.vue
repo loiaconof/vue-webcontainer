@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { VueMonacoEditor } from '@guolao/vue-monaco-editor'
 import type { ActiveFile } from '@/types/webcontainer'
 
 const props = defineProps<{ activeFile?: ActiveFile }>()
 
+const emit = defineEmits<{ (e: 'updateFile', name: string, content: string): void }>()
+
+const code = ref('')
 const showTerminal = ref(true)
 const editorOptions = {
   automaticLayout: true,
@@ -26,14 +29,25 @@ const language = computed(() => {
     default: return 'plaintext'
   }
 })
+
+watch(code, (code) => {
+  if (!props.activeFile)
+    return
+
+  emit('update-file', props.activeFile.name, code)
+})
+
+watch(() => props.activeFile?.name, () => {
+  if (props.activeFile && typeof props.activeFile.node.file.contents === 'string')
+    code.value = props.activeFile.node.file.contents
+})
 </script>
 
 <template>
   <div class="panel-editor">
     <div class="editor">
       <VueMonacoEditor
-        v-if="activeFile && typeof activeFile.node.file.contents === 'string'"
-        v-model:value="activeFile.node.file.contents"
+        v-model:value="code"
         theme="vs-dark"
         :options="editorOptions"
         class="monaco-editor"
