@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import type { FileSystemTree } from '@webcontainer/api'
+import { onMounted, reactive, ref } from 'vue'
+import type { FileNode, FileSystemTree } from '@webcontainer/api'
 import { Pane, Splitpanes } from 'splitpanes'
 import Terminal from '@/components/Webcontainer/children/Terminal.vue'
 import PanelEditor from '@/components/Webcontainer/children/PanelEditor.vue'
@@ -10,37 +10,25 @@ import PanelFiles from './children/PanelFiles.vue'
 
 const props = defineProps<{ directory: FileSystemTree }>()
 
-const stream = ref<ReadableStream>()
-const iframe = ref<HTMLIFrameElement>()
 const editorCode = ref('')
+const iframe = ref<HTMLIFrameElement>()
+const activeFile = reactive<{ name?: string, node?: FileNode }>({ name: undefined, node: undefined })
 
-async function startDevServer() {
-  const wc = await useWebContainer()
+const { startDevServer, stream } = useWebContainer()
 
-  wc.on('server-ready', (port, url) => (iframe.value!.src = url))
-
-  await wc.mount(props.directory)
-
-  const installProcess = await wc.spawn('pnpm', ['install'])
-  stream.value = installProcess.output
-  const installExitCode = await installProcess.exit
-
-  if (installExitCode !== 0) {
-    throw new Error('Unable to run npm install')
-  }
-
-  const devProcess = await wc.spawn('pnpm', ['dev'])
-  stream.value = devProcess.output
+function updateActiveFile(fileName: string, fileNode: FileNode) {
+  activeFile.name = fileName
+  activeFile.node = fileNode
 }
 
-onMounted(startDevServer)
+onMounted(() => startDevServer(iframe.value, props.directory))
 </script>
 
 <template>
   <div class="vue-webcontainer">
     <Splitpanes class="default-theme">
       <Pane size="10">
-        <PanelFiles :directory @active-file="(code: string) => editorCode = code" />
+        <PanelFiles :directory @active-file="updateActiveFile" />
       </Pane>
       <Pane size="45">
         <PanelEditor :code="editorCode">
