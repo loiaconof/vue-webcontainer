@@ -8,13 +8,14 @@ import useWebContainer from '@/composables/webcontainer.ts'
 import 'splitpanes/dist/splitpanes.css'
 import PanelFiles from './children/PanelFiles.vue'
 import type { ActiveFile } from '@/types/webcontainer'
+import PanelLoading from '@/components/Webcontainer/children/PanelLoading.vue'
 
 const props = defineProps<{ directory: FileSystemTree }>()
 
 const iframe = ref<HTMLIFrameElement>()
 const activeFile = ref<ActiveFile>()
 
-const { startDevServer, stream, updateFile } = useWebContainer()
+const { startDevServer, stream, updateFile, status } = useWebContainer()
 
 onMounted(() => startDevServer(iframe.value, props.directory))
 </script>
@@ -33,7 +34,8 @@ onMounted(() => startDevServer(iframe.value, props.directory))
         </PanelEditor>
       </Pane>
       <Pane size="45">
-        <iframe ref="iframe" />
+        <iframe v-show="status === 'ready'" ref="iframe" />
+        <PanelLoading v-if="status !== 'ready'" :status="status" />
       </Pane>
     </Splitpanes>
   </div>
