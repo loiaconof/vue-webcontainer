@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { VueMonacoEditor } from '@guolao/vue-monaco-editor'
-import type { FileNode } from '@webcontainer/api'
+import type { ActiveFile } from '@/types/webcontainer'
 
-defineProps<{ activeFile: { name?: string, node?: FileNode } }>()
+defineProps<{ activeFile?: ActiveFile }>()
 
 const showTerminal = ref(true)
 const editorOptions = {
@@ -17,7 +17,7 @@ const editorOptions = {
   <div class="panel-editor">
     <div class="editor">
       <VueMonacoEditor
-        v-if="activeFile.node && typeof activeFile.node.file.contents === 'string'"
+        v-if="activeFile && typeof activeFile.node.file.contents === 'string'"
         v-model:value="activeFile.node.file.contents"
         theme="vs-dark"
         :options="editorOptions"
