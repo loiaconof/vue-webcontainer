@@ -18,7 +18,7 @@ onBeforeMount(async () => directory.value = await getDirectoryStructure())
 
 <template>
   <main>
-    <Playground :directory />
+    <Playground v-if="directory" :directory />
   </main>
 </template>
 
