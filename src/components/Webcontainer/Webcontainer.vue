@@ -14,7 +14,7 @@ const props = defineProps<{ directory: FileSystemTree }>()
 const iframe = ref<HTMLIFrameElement>()
 const activeFile = ref<ActiveFile>()
 
-const { startDevServer, stream } = useWebContainer()
+const { startDevServer, stream, updateFile } = useWebContainer()
 
 onMounted(() => startDevServer(iframe.value, props.directory))
 </script>
@@ -26,7 +26,7 @@ onMounted(() => startDevServer(iframe.value, props.directory))
         <PanelFiles :directory @active-file="(_activeFile: ActiveFile) => activeFile = _activeFile" />
       </Pane>
       <Pane size="45">
-        <PanelEditor :active-file>
+        <PanelEditor :active-file @update-file="updateFile">
           <template #terminal>
             <Terminal v-if="stream" :stream />
           </template>
