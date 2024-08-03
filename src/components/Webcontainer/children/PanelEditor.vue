@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { VueMonacoEditor } from '@guolao/vue-monaco-editor'
 import type { ActiveFile } from '@/types/webcontainer'
 
-defineProps<{ activeFile?: ActiveFile }>()
+const props = defineProps<{ activeFile?: ActiveFile }>()
 
 const showTerminal = ref(true)
 const editorOptions = {
@@ -11,6 +11,21 @@ const editorOptions = {
   formatOnType: true,
   formatOnPaste: true,
 }
+const language = computed(() => {
+  if (!props.activeFile)
+    return 'plaintext'
+
+  const ext = props.activeFile.name.split('.').pop()
+  switch (ext) {
+    case 'js': return 'javascript'
+    case 'ts': return 'typescript'
+    case 'css': return 'css'
+    case 'json': return 'json'
+    case 'vue': return 'vue'
+    case 'html': return 'html'
+    default: return 'plaintext'
+  }
+})
 </script>
 
 <template>
@@ -22,6 +37,7 @@ const editorOptions = {
         theme="vs-dark"
         :options="editorOptions"
         class="monaco-editor"
+        :language
       />
     </div>
     <div class="terminal-wrapper">
