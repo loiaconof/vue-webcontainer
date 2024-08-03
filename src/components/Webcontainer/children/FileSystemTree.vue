@@ -36,7 +36,7 @@ function handleOpenDirectories(directoryName: string | number) {
           <FileSystemTreeComponent :directory="data.directory" :path="`${path}/${name}`" @active-file="(fileName: string, fileNode: FileNode) => emit('activeFile', fileName, fileNode)" />
         </div>
       </div>
-      <span v-else-if="data.file" @click.stop.prevent="emit('activeFile', name.toString(), data.file)">{{ name }}</span>
+      <span v-else-if="data.file" @click.stop.prevent="emit('activeFile', name.toString(), data as FileNode)">{{ name }}</span>
     </div>
   </div>
 </template>

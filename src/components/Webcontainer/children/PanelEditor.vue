@@ -17,8 +17,8 @@ const editorOptions = {
   <div class="panel-editor">
     <div class="editor">
       <VueMonacoEditor
-        v-if="activeFile.node"
-        v-model:value="activeFile.node.contents"
+        v-if="activeFile.node && typeof activeFile.node.file.contents === 'string'"
+        v-model:value="activeFile.node.file.contents"
         theme="vs-dark"
         :options="editorOptions"
         class="monaco-editor"
