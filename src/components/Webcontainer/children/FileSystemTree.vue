@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { FileSystemTree } from '@webcontainer/api'
+import type { FileNode, FileSystemTree } from '@webcontainer/api'
 import FileSystemTreeComponent from './FileSystemTree.vue'
 
 defineProps<{
@@ -8,7 +8,7 @@ defineProps<{
   path: string
 }>()
 
-const emit = defineEmits<{ (e: 'activeFile', code: string): void }>()
+const emit = defineEmits<{ (e: 'activeFile', fileName: string, fileNode: FileNode): void }>()
 
 const openDirectory = ref<(string | number)[]>([])
 
@@ -33,10 +33,10 @@ function handleOpenDirectories(directoryName: string | number) {
           </div>
         </div>
         <div v-show="openDirectory.includes(name)" class="directory-files-wrapper">
-          <FileSystemTreeComponent :directory="data.directory" :path="`${path}/${name}`" @active-file="(content: string) => emit('activeFile', content)" />
+          <FileSystemTreeComponent :directory="data.directory" :path="`${path}/${name}`" @active-file="(fileName: string, fileNode: FileNode) => emit('activeFile', fileName, fileNode)" />
         </div>
       </div>
-      <span v-else-if="data.file" @click.stop="emit('activeFile', data.file.contents)">{{ name }}</span>
+      <span v-else-if="data.file" @click.stop.prevent="emit('activeFile', name.toString(), data.file)">{{ name }}</span>
     </div>
   </div>
 </template>
