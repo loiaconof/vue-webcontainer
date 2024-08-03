@@ -24,8 +24,13 @@ export default function useWebContainer() {
     }
   }
 
+  function updateFile(filePath: string, content: string) {
+    _webcontainerInstance.fs.writeFile(filePath, content)
+  }
+
   return {
     stream,
     startDevServer,
+    updateFile,
   }
 }
