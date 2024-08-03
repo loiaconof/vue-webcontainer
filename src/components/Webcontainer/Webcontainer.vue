@@ -10,7 +10,6 @@ import PanelFiles from './children/PanelFiles.vue'
 
 const props = defineProps<{ directory: FileSystemTree }>()
 
-const editorCode = ref('')
 const iframe = ref<HTMLIFrameElement>()
 const activeFile = reactive<{ name?: string, node?: FileNode }>({ name: undefined, node: undefined })
 
@@ -31,7 +30,7 @@ onMounted(() => startDevServer(iframe.value, props.directory))
         <PanelFiles :directory @active-file="updateActiveFile" />
       </Pane>
       <Pane size="45">
-        <PanelEditor :code="editorCode">
+        <PanelEditor :active-file>
           <template #terminal>
             <Terminal v-if="stream" :stream />
           </template>

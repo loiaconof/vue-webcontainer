@@ -1,25 +1,24 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { VueMonacoEditor } from '@guolao/vue-monaco-editor'
+import type { FileNode } from '@webcontainer/api'
 
-const props = defineProps<{ code: string }>()
+defineProps<{ activeFile: { name?: string, node?: FileNode } }>()
 
-const activeCode = ref(props.code)
 const showTerminal = ref(true)
 const editorOptions = {
   automaticLayout: true,
   formatOnType: true,
   formatOnPaste: true,
 }
-
-watch(() => props.code, (code: string) => activeCode.value = code)
 </script>
 
 <template>
   <div class="panel-editor">
     <div class="editor">
       <VueMonacoEditor
-        v-model:value="activeCode"
+        v-if="activeFile.node"
+        v-model:value="activeFile.node.contents"
         theme="vs-dark"
         :options="editorOptions"
         class="monaco-editor"
