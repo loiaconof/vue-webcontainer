@@ -40,7 +40,7 @@ watch(code, (code) => {
 watch(() => props.activeFile?.name, () => {
   if (props.activeFile && typeof props.activeFile.node.file.contents === 'string')
     code.value = props.activeFile.node.file.contents
-})
+}, { immediate: true })
 </script>
 
 <template>

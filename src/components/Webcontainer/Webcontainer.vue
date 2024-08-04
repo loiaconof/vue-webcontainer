@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
-import type { FileNode, FileSystemTree } from '@webcontainer/api'
+import { onMounted, ref, watch } from 'vue'
+import type { FileSystemTree } from '@webcontainer/api'
 import { Pane, Splitpanes } from 'splitpanes'
 import Terminal from '@/components/Webcontainer/children/Terminal.vue'
 import PanelEditor from '@/components/Webcontainer/children/PanelEditor.vue'
@@ -9,6 +9,7 @@ import 'splitpanes/dist/splitpanes.css'
 import PanelFiles from './children/PanelFiles.vue'
 import type { EditorFile } from '@/types/webcontainer'
 import PanelLoading from '@/components/Webcontainer/children/PanelLoading.vue'
+import { getFirstFileInDirectory } from '@/utils/files'
 
 const props = defineProps<{ directory: FileSystemTree }>()
 
@@ -16,6 +17,8 @@ const iframe = ref<HTMLIFrameElement>()
 const activeFile = ref<EditorFile>()
 
 const { startDevServer, stream, updateFile, status } = useWebContainer()
+
+watch(() => props.directory, () => { activeFile.value = getFirstFileInDirectory(props.directory) }, { immediate: true })
 
 onMounted(() => startDevServer(iframe.value, props.directory))
 </script>
