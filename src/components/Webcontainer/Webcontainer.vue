@@ -7,13 +7,13 @@ import PanelEditor from '@/components/Webcontainer/children/PanelEditor.vue'
 import useWebContainer from '@/composables/webcontainer.ts'
 import 'splitpanes/dist/splitpanes.css'
 import PanelFiles from './children/PanelFiles.vue'
-import type { ActiveFile } from '@/types/webcontainer'
+import type { EditorFile } from '@/types/webcontainer'
 import PanelLoading from '@/components/Webcontainer/children/PanelLoading.vue'
 
 const props = defineProps<{ directory: FileSystemTree }>()
 
 const iframe = ref<HTMLIFrameElement>()
-const activeFile = ref<ActiveFile>()
+const activeFile = ref<EditorFile>()
 
 const { startDevServer, stream, updateFile, status } = useWebContainer()
 
@@ -24,7 +24,7 @@ onMounted(() => startDevServer(iframe.value, props.directory))
   <div class="vue-webcontainer">
     <Splitpanes class="default-theme">
       <Pane size="10">
-        <PanelFiles :directory @active-file="(_activeFile: ActiveFile) => activeFile = _activeFile" />
+        <PanelFiles :directory @active-file="(_activeFile: EditorFile) => activeFile = _activeFile" />
       </Pane>
       <Pane size="45">
         <PanelEditor :active-file @update-file="updateFile">

@@ -1,6 +1,6 @@
 import type { FileNode } from '@webcontainer/api'
 
-export interface ActiveFile {
+export interface EditorFile {
   name: string
   node: FileNode
 }

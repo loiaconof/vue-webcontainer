@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { VueMonacoEditor } from '@guolao/vue-monaco-editor'
-import type { ActiveFile } from '@/types/webcontainer'
+import type { EditorFile } from '@/types/webcontainer'
 
-const props = defineProps<{ activeFile?: ActiveFile }>()
+const props = defineProps<{ activeFile?: EditorFile }>()
 
 const emit = defineEmits<{ (e: 'updateFile', name: string, content: string): void }>()
 
