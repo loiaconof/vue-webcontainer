@@ -7,6 +7,8 @@ const props = defineProps<{ activeFile?: EditorFile }>()
 
 const emit = defineEmits<{ (e: 'updateFile', name: string, content: string): void }>()
 
+let watchTimeout: number | undefined
+
 const code = ref('')
 const showTerminal = ref(true)
 const editorOptions = {
@@ -14,6 +16,7 @@ const editorOptions = {
   formatOnType: true,
   formatOnPaste: true,
 }
+
 const language = computed(() => {
   if (!props.activeFile)
     return 'plaintext'
@@ -34,7 +37,12 @@ watch(code, (code) => {
   if (!props.activeFile)
     return
 
-  emit('update-file', props.activeFile.name, code)
+  if (watchTimeout)
+    clearTimeout(watchTimeout)
+
+  watchTimeout = setTimeout(() => {
+    emit('update-file', props.activeFile.name, code)
+  }, 500)
 })
 
 watch(() => props.activeFile?.name, () => {
