@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FileNode, FileSystemTree } from '@webcontainer/api'
+import type { FileSystemTree } from '@webcontainer/api'
 import { ref, watchEffect } from 'vue'
 import FileSystemTreeComponent from './FileSystemTree.vue'
 import type { EditorFile } from '@/types/webcontainer';
