@@ -38,7 +38,7 @@ onMounted(() => startDevServer(iframe.value, props.directory))
       </Pane>
       <Pane size="45">
         <iframe v-show="status === 'ready'" ref="iframe" />
-        <PanelLoading v-if="status !== 'ready'" :status="status" />
+        <PanelLoading v-if="status !== 'ready'" />
       </Pane>
     </Splitpanes>
   </div>

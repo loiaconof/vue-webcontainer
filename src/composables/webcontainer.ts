@@ -6,6 +6,7 @@ export default function useWebContainer() {
   let _webcontainerInstance: WebContainer
   const stream = ref<ReadableStream>()
   const status = ref<WebcontainerSatus>('init')
+  const errorMessage = ref<string>('')
 
   async function startDevServer(iframe: HTMLIFrameElement, directory: FileSystemTree) {
     if (!_webcontainerInstance)
@@ -27,6 +28,7 @@ export default function useWebContainer() {
 
     if (installExitCode !== 0) {
       status.value = 'error'
+      errorMessage.value = `Failed to install dependencies: error ${installExitCode}`
       return
     }
 
@@ -44,5 +46,6 @@ export default function useWebContainer() {
     stream,
     startDevServer,
     updateFile,
+    errorMessage,
   }
 }
