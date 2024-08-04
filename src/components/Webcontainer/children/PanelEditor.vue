@@ -27,7 +27,7 @@ const language = computed(() => {
     case 'ts': return 'typescript'
     case 'css': return 'css'
     case 'json': return 'json'
-    case 'vue': return 'vue'
+    case 'vue': return 'html'
     case 'html': return 'html'
     default: return 'plaintext'
   }
