@@ -38,6 +38,9 @@ export default function useWebContainer() {
   }
 
   function updateFile(filePath: string, content: string) {
+    if (!_webcontainerInstance)
+      return
+
     _webcontainerInstance.fs.writeFile(filePath, content)
   }
 
